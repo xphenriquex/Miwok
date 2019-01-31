@@ -3,7 +3,6 @@ package com.exemplo.android.miwok;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import java.util.ArrayList;
 
@@ -13,7 +12,7 @@ public class NumbersActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_number);
+        setContentView(R.layout.word_list);
 
         ArrayList<Word> words = new ArrayList<>();
 
@@ -30,7 +29,7 @@ public class NumbersActivity extends AppCompatActivity {
 
         WordAdpter adpter = new WordAdpter(this, words);
 
-        ListView listView = findViewById(R.id.list);
+        ListView listView = findViewById(R.id.word_list);
         listView.setAdapter(adpter);
     }
 }
