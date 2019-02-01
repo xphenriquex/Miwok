@@ -27,7 +27,7 @@ public class PhrasesActivity extends AppCompatActivity {
         words.add(new Word("Vamos lá.", "yoowutis"));
         words.add(new Word("Venha aqui.", "әnni'nem"));
 
-        WordAdpter adpter = new WordAdpter(this, words);
+        WordAdpter adpter = new WordAdpter(this, words, R.color.category_phrases);
 
         ListView listView = findViewById(R.id.word_list);
         listView.setAdapter(adpter);
