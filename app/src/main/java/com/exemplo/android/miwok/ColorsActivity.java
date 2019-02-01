@@ -1,8 +1,10 @@
 package com.exemplo.android.miwok;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,14 +19,15 @@ public class ColorsActivity extends AppCompatActivity {
 
         ArrayList<Word> words = new ArrayList<>();
 
-        words.add(new Word("vermelho", "wetetti"));
-        words.add(new Word("verde", "chokokki"));
-        words.add(new Word("marron", "takaakki"));
-        words.add(new Word("cinza", "topoppi"));
-        words.add(new Word("preto", "kululli"));
-        words.add(new Word("branco", "kelelli"));
-        words.add(new Word("amarelo empoeirado", "topiisә"));
-        words.add(new Word("amarelo mostarda", "chiwiitә"));
+        words.add(new Word("vermelho", "wetetti", R.drawable.color_red));
+        words.add(new Word("verde", "chokokki", R.drawable.color_green));
+        words.add(new Word("marron", "takaakki", R.drawable.color_brown));
+        words.add(new Word("cinza", "topoppi", R.drawable.color_gray));
+        words.add(new Word("preto", "kululli", R.drawable.color_black));
+        words.add(new Word("branco", "kelelli", R.drawable.color_white));
+        words.add(new Word("amarelo empoeirado", "topiisә", R.drawable.color_dusty_yellow));
+        words.add(new Word("amarelo mostarda", "chiwiitә", R.drawable.color_mustard_yellow));
+
 
         WordAdpter adpter = new WordAdpter(this, words);
 
