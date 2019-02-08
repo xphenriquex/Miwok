@@ -58,6 +58,12 @@ public class WordAdpter extends ArrayAdapter<Word> {
             public void onClick(View v) {
                 MediaPlayer mp = MediaPlayer.create(getContext(), currentWord.getAudio());
                 mp.start();
+                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
             }
         });
 
