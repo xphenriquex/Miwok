@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -33,13 +32,14 @@ public class NumbersActivity extends AppCompatActivity {
 
         WordAdpter adpter = new WordAdpter(this, words, R.color.category_numbers);
 
-        final ListView listView = findViewById(R.id.word_list);
+
+        ListView listView = findViewById(R.id.word_list);
         listView.setAdapter(adpter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Word item = (Word) listView.getItemAtPosition(position);
+                Word item = (Word) parent.getItemAtPosition(position);
                 MediaPlayer mp = MediaPlayer.create(getApplication(), item.getAudio());
                 mp.start();
                 mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
