@@ -3,8 +3,11 @@ package com.exemplo.android.miwok;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,11 +31,24 @@ public class ColorsActivity extends AppCompatActivity {
         words.add(new Word("amarelo empoeirado", "topiisә", R.drawable.color_dusty_yellow, R.raw.color_dusty_yellow));
         words.add(new Word("amarelo mostarda", "chiwiitә", R.drawable.color_mustard_yellow, R.raw.color_mustard_yellow));
 
-
         WordAdpter adpter = new WordAdpter(this, words, R.color.category_colors);
 
         ListView listView = findViewById(R.id.word_list);
         listView.setAdapter(adpter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Word item = (Word) parent.getItemAtPosition(position);
+                MediaPlayer mp = MediaPlayer.create(getApplication(), item.getAudio());
+                mp.start();
+                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
+            }
+        });
     }
 }
