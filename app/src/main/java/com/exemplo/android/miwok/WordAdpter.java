@@ -52,22 +52,6 @@ public class WordAdpter extends ArrayAdapter<Word> {
 
         layoutText.setBackgroundResource(mColor);
 
-        //Creating a function to play the song of the word
-        layoutText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MediaPlayer mp = MediaPlayer.create(getContext(), currentWord.getAudio());
-                mp.start();
-                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        mp.release();
-                    }
-                });
-            }
-        });
-
-
         if (currentWord.hasImage()) {
             //set the imageView to the image resource specified in the current Word
             img.setImageResource(currentWord.getImageResourceID());
