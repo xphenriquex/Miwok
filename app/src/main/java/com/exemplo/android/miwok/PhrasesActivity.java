@@ -16,16 +16,16 @@ public class PhrasesActivity extends AppCompatActivity {
 
         ArrayList<Word> words = new ArrayList<>();
 
-        words.add(new Word("Onde você está indo?", "minto wuksus"));
-        words.add(new Word("Qual seu nome?", "tinnә oyaase'nә"));
-        words.add(new Word("Meu nome é...", "oyaaset..."));
-        words.add(new Word("Como você está se sentido?", "michәksәs?"));
-        words.add(new Word("Estou me sentindo bem.", "kuchi achit"));
-        words.add(new Word("Você está vindo?", "әәnәs'aa?"));
-        words.add(new Word("Sim, estou indo.", "hәә’ әәnәm"));
-        words.add(new Word("Estou indo.", "әәnәm"));
-        words.add(new Word("Vamos lá.", "yoowutis"));
-        words.add(new Word("Venha aqui.", "әnni'nem"));
+        words.add(new Word("Onde você está indo?", "minto wuksus", R.raw.phrase_where_are_you_going));
+        words.add(new Word("Qual seu nome?", "tinnә oyaase'nә", R.raw.phrase_what_is_your_name));
+        words.add(new Word("Meu nome é...", "oyaaset...", R.raw.phrase_my_name_is));
+        words.add(new Word("Como você está se sentido?", "michәksәs?", R.raw.phrase_how_are_you_feeling));
+        words.add(new Word("Estou me sentindo bem.", "kuchi achit", R.raw.phrase_im_feeling_good));
+        words.add(new Word("Você está vindo?", "әәnәs'aa?", R.raw.phrase_are_you_coming));
+        words.add(new Word("Sim, estou indo.", "hәә’ әәnәm", R.raw.phrase_yes_im_coming));
+        words.add(new Word("Estou indo.", "әәnәm", R.raw.phrase_im_coming));
+        words.add(new Word("Vamos lá.", "yoowutis", R.raw.phrase_lets_go));
+        words.add(new Word("Venha aqui.", "әnni'nem", R.raw.phrase_come_here));
 
         WordAdpter adpter = new WordAdpter(this, words, R.color.category_phrases);
 
