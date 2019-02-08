@@ -11,13 +11,14 @@ import java.util.ArrayList;
 
 
 public class NumbersActivity extends AppCompatActivity {
+    private MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
 
-        ArrayList<Word> words = new ArrayList<>();
+        final ArrayList<Word> words = new ArrayList<>();
 
         words.add(new Word("um", "lutti", R.drawable.number_one, R.raw.number_one));
         words.add(new Word("dois", "otiiko", R.drawable.number_two, R.raw.number_two));
@@ -30,7 +31,7 @@ public class NumbersActivity extends AppCompatActivity {
         words.add(new Word("nove", "wo'e", R.drawable.number_nine, R.raw.number_nine));
         words.add(new Word("dez", "na'aacha", R.drawable.number_ten, R.raw.number_ten));
 
-        WordAdpter adpter = new WordAdpter(this, words, R.color.category_numbers);
+        final WordAdpter adpter = new WordAdpter(this, words, R.color.category_numbers);
 
 
         ListView listView = findViewById(R.id.word_list);
@@ -39,8 +40,8 @@ public class NumbersActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Word item = (Word) parent.getItemAtPosition(position);
-                MediaPlayer mp = MediaPlayer.create(getApplication(), item.getAudioResourceId());
+                Word item = words.get(position);
+                mp = MediaPlayer.create(NumbersActivity.this, item.getAudioResourceId());
                 mp.start();
                 mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override

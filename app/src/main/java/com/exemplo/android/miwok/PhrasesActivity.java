@@ -11,13 +11,14 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class PhrasesActivity extends AppCompatActivity {
+    private MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
 
-        ArrayList<Word> words = new ArrayList<>();
+        final ArrayList<Word> words = new ArrayList<>();
 
         words.add(new Word("Onde você está indo?", "minto wuksus", R.raw.phrase_where_are_you_going));
         words.add(new Word("Qual seu nome?", "tinnә oyaase'nә", R.raw.phrase_what_is_your_name));
@@ -38,9 +39,9 @@ public class PhrasesActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Word item = (Word) parent.getItemAtPosition(position);
+                Word item = words.get(position);
 
-                MediaPlayer mp = MediaPlayer.create(getApplication(), item.getAudioResourceId());
+                mp = MediaPlayer.create(PhrasesActivity.this, item.getAudioResourceId());
                 mp.start();
                 mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override

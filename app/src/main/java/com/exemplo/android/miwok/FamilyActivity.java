@@ -12,13 +12,14 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class FamilyActivity extends AppCompatActivity {
+    private MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
 
-        ArrayList<Word> words = new ArrayList<>();
+        final ArrayList<Word> words = new ArrayList<>();
         LinearLayout layoutText = findViewById(R.id.layout_text);
 
         words.add(new Word("pai", "әpә", R.drawable.family_father, R.raw.family_father));
@@ -40,8 +41,8 @@ public class FamilyActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Word item = (Word) parent.getItemAtPosition(position);
-                MediaPlayer mp = MediaPlayer.create(getApplication(), item.getAudioResourceId());
+                Word item = words.get(position);
+                mp = MediaPlayer.create(FamilyActivity.this, item.getAudioResourceId());
                 mp.start();
                 mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override

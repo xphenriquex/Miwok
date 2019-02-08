@@ -11,13 +11,14 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class ColorsActivity extends AppCompatActivity {
+    private MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
 
-        ArrayList<Word> words = new ArrayList<>();
+        final ArrayList<Word> words = new ArrayList<>();
 
         words.add(new Word("vermelho", "wetetti", R.drawable.color_red, R.raw.color_red));
         words.add(new Word("verde", "chokokki", R.drawable.color_green, R.raw.color_green));
@@ -36,8 +37,8 @@ public class ColorsActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Word item = (Word) parent.getItemAtPosition(position);
-                MediaPlayer mp = MediaPlayer.create(getApplication(), item.getAudioResourceId());
+                Word item = words.get(position);
+                mp = MediaPlayer.create(ColorsActivity.this, item.getAudioResourceId());
                 mp.start();
                 mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
