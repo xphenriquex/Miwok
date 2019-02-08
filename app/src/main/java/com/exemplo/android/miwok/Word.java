@@ -30,7 +30,7 @@ public class Word {
         return mwordMiwokTranslation;
     }
 
-    public int getImageResourceID() {
+    public int getImageResourceId() {
         return mImageResourceId;
     }
 
@@ -38,7 +38,7 @@ public class Word {
         return mImageResourceId != NO_IMAGE_PROVIDED;
     }
 
-    public int getAudio() {
+    public int getAudioResourceId() {
         return mAudio;
     }
 }

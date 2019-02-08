@@ -1,15 +1,12 @@
 package com.exemplo.android.miwok;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -40,7 +37,7 @@ public class ColorsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Word item = (Word) parent.getItemAtPosition(position);
-                MediaPlayer mp = MediaPlayer.create(getApplication(), item.getAudio());
+                MediaPlayer mp = MediaPlayer.create(getApplication(), item.getAudioResourceId());
                 mp.start();
                 mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override

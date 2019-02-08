@@ -40,7 +40,7 @@ public class NumbersActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Word item = (Word) parent.getItemAtPosition(position);
-                MediaPlayer mp = MediaPlayer.create(getApplication(), item.getAudio());
+                MediaPlayer mp = MediaPlayer.create(getApplication(), item.getAudioResourceId());
                 mp.start();
                 mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override

@@ -1,7 +1,6 @@
 package com.exemplo.android.miwok;
 
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +53,7 @@ public class WordAdpter extends ArrayAdapter<Word> {
 
         if (currentWord.hasImage()) {
             //set the imageView to the image resource specified in the current Word
-            img.setImageResource(currentWord.getImageResourceID());
+            img.setImageResource(currentWord.getImageResourceId());
 
             //Make sure the view is visible
             img.setVisibility(View.VISIBLE);
