@@ -6,17 +6,20 @@ public class Word {
     private String mWordDefaultTranslation;
     private String mwordMiwokTranslation;
     private int mImageResourceId = NO_IMAGE_PROVIDED;
+    private int mAudio;
     private static final int NO_IMAGE_PROVIDED = -1;
 
-    public Word(String defaultTranslation, String miwokTranslation) {
+    public Word(String defaultTranslation, String miwokTranslation, int audio) {
         mWordDefaultTranslation = defaultTranslation;
         mwordMiwokTranslation = miwokTranslation;
+        mAudio = audio;
     }
 
-    public Word(String defaultTranslation, String miwokTranslation, int imageResourceId) {
+    public Word(String defaultTranslation, String miwokTranslation, int imageResourceId, int audio) {
         mWordDefaultTranslation = defaultTranslation;
         mwordMiwokTranslation = miwokTranslation;
         mImageResourceId = imageResourceId;
+        mAudio = audio;
     }
 
     public String getDefaultTranslation() {
@@ -33,5 +36,9 @@ public class Word {
 
     public boolean hasImage() {
         return mImageResourceId != NO_IMAGE_PROVIDED;
+    }
+
+    public int getAudio() {
+        return mAudio;
     }
 }
