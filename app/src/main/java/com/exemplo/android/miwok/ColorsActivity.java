@@ -11,7 +11,15 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class ColorsActivity extends AppCompatActivity {
-    private MediaPlayer mp;
+    private MediaPlayer mMediaPlayer;
+
+    //Criando uma só instancia do Media Player
+    private MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            releseaMediaPlayer();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +46,32 @@ public class ColorsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Word item = words.get(position);
-                mp = MediaPlayer.create(ColorsActivity.this, item.getAudioResourceId());
-                mp.start();
-                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        mp.release();
-                    }
-                });
+
+                //Liberando o recuros do Media Player, caso o usuário clique varias vezes
+                //ele ainda pode estar tocando, com isso não irá ocorrer nenhum bug
+                releseaMediaPlayer();
+
+                //criando e setando ao MediaPlayer o audio e o recurso associado a palavra atua
+                mMediaPlayer = MediaPlayer.create(ColorsActivity.this, item.getAudioResourceId());
+                mMediaPlayer.start();
+
+                //setando um listener ao media player, com isso o audio e parado
+                //e os recursos que estão sendo utilizados são limpos
+                mMediaPlayer.setOnCompletionListener(completionListener);
             }
         });
+    }
+
+    private void releseaMediaPlayer(){
+        //if o Media Player não for nulo, ele está tocando algum som
+        if(mMediaPlayer != null){
+
+            //Limpanndo os recursos do Media Player pois não precisamos
+            //mais dele
+            mMediaPlayer.release();
+
+            //setando o Media Player para nulo
+            mMediaPlayer = null;
+        }
     }
 }
