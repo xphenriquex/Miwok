@@ -64,6 +64,12 @@ public class PhrasesActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        releseaMediaPlayer();
+    }
+
     private void releseaMediaPlayer(){
         //if o Media Player não for nulo, ele está tocando algum som
         if(mMediaPlayer != null){
