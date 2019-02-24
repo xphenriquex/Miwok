@@ -2,8 +2,11 @@ package com.exemplo.android.miwok;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -12,6 +15,7 @@ import java.util.ArrayList;
 
 public class NumbersActivity extends AppCompatActivity {
     private MediaPlayer mMediaPlayer;
+    private AudioManager mAudioManager;
 
     //Criando uma só instancia do Media Player
     private MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
@@ -83,6 +87,29 @@ public class NumbersActivity extends AppCompatActivity {
             //setando o Media Player para nulo
             mMediaPlayer = null;
         }
+    }
+
+    private boolean requestAudioFocus(Context context){
+
+        //Criando gerenciado de audio
+        mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+
+        //Requisitando focus para o audio
+        int resut = mAudioManager.requestAudioFocus(
+                null,
+                AudioManager.STREAM_MUSIC,
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
+        );
+
+        //Verificando se permissão do focus foi concedido pelo sistema
+        if(resut == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
+            Log.e("AudioFocus", "Permissão concedida!");
+            return true;
+        }else{
+            Log.e("AudioFocus", "Permissão não concedida!");
+            return false;
+        }
+
     }
 }
 
