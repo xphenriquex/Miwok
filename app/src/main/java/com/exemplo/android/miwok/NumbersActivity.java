@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class NumbersActivity extends AppCompatActivity {
     private MediaPlayer mMediaPlayer;
     private AudioManager mAudioManager;
+    private int audioResourceIdGlobal = 0;
 
     //Criando uma só instancia do Media Player
     private MediaPlayer.OnCompletionListener completionListener =
@@ -26,6 +27,39 @@ public class NumbersActivity extends AppCompatActivity {
         }
     };
 
+    private AudioManager.OnAudioFocusChangeListener audioFocusChangeListener =
+            new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            switch (focusChange){
+                case AudioManager.AUDIOFOCUS_GAIN:
+                    Log.e("AudioFocus", "AUDIOFOCUS_GAIN");
+                    play(NumbersActivity.this);
+                    break;
+
+                case AudioManager.AUDIOFOCUS_LOSS:
+                    Log.e("AudioFocus", "AUDIOFOCUS_LOSS");
+                    mAudioManager.abandonAudioFocus(this);
+                    releseaMediaPlayer();
+                    break;
+
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                    Log.e("AudioFocus", "AUDIOFOCUS_LOSS_TRANSIENT");
+                    if (mMediaPlayer.isPlaying()){
+                        releseaMediaPlayer();
+                    }
+                    break;
+
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                    Log.e("AudioFocus", "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
+                    mMediaPlayer.setVolume(0.2f, 0.2f);
+                    break;
+
+                default:
+                    //
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +90,17 @@ public class NumbersActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Word item = words.get(position);
 
+                //Criado um AudioResourceID global para
+                //poder utilizar no audioFocusListener
+                audioResourceIdGlobal = item.getAudioResourceId();
+
+                // Retorna status da permissão do focus
+                //Sendo eles, Concedido e não concedido
                 boolean focus = requestAudioFocus(NumbersActivity.this);
 
-                //Se focus for concedido executar audio
+                //Se focus for concedido executar o audio
                 if(focus){
-                    play(NumbersActivity.this, item.getAudioResourceId());
+                    play(NumbersActivity.this);
                 }
 
             }
@@ -87,14 +127,14 @@ public class NumbersActivity extends AppCompatActivity {
         }
     }
 
-    private void play(Context context, int audioResourceID){
+    private void play(Context context){
 
         //Liberando o recuros do Media Player, caso o usuário clique varias vezes
         //ele ainda pode estar tocando, com isso não irá ocorrer nenhum bug
         releseaMediaPlayer();
 
         //criando e setando ao MediaPlayer o audio e o recurso associado a palavra atua
-        mMediaPlayer = MediaPlayer.create(context, audioResourceID);
+        mMediaPlayer = MediaPlayer.create(context, audioResourceIdGlobal);
         mMediaPlayer.start();
 
         //setando um listener ao media player, com isso o audio e parado
@@ -109,7 +149,7 @@ public class NumbersActivity extends AppCompatActivity {
 
         //Requisitando focus para o audio
         int resut = mAudioManager.requestAudioFocus(
-                null,
+                audioFocusChangeListener,
                 AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
         );
