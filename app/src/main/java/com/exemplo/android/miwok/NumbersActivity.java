@@ -33,23 +33,19 @@ public class NumbersActivity extends AppCompatActivity {
         public void onAudioFocusChange(int focusChange) {
             switch (focusChange){
                 case AudioManager.AUDIOFOCUS_GAIN:
-                    Log.e("AudioFocus", "AUDIOFOCUS_GAIN");
                     play(NumbersActivity.this);
                     break;
 
                 case AudioManager.AUDIOFOCUS_LOSS:
-                    Log.e("AudioFocus", "AUDIOFOCUS_LOSS");
                     releseaMediaPlayer();
                     break;
 
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                    Log.e("AudioFocus", "AUDIOFOCUS_LOSS_TRANSIENT");
                     mMediaPlayer.pause();
                     mMediaPlayer.seekTo(0);
                     break;
 
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                    Log.e("AudioFocus", "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
                     mMediaPlayer.pause();
                     mMediaPlayer.seekTo(0);
                     break;
@@ -158,10 +154,8 @@ public class NumbersActivity extends AppCompatActivity {
 
         //Verificando se permissão do focus foi concedido pelo sistema
         if(resut == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
-            Log.e("AudioFocus", "Permissão concedida!");
             return true;
         }else{
-            Log.e("AudioFocus", "Permissão não concedida!");
             return false;
         }
 
