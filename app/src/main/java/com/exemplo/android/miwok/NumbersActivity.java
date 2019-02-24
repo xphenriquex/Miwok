@@ -18,12 +18,14 @@ public class NumbersActivity extends AppCompatActivity {
     private AudioManager mAudioManager;
 
     //Criando uma só instancia do Media Player
-    private MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
+    private MediaPlayer.OnCompletionListener completionListener =
+            new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
             releseaMediaPlayer();
         }
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,17 +56,13 @@ public class NumbersActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Word item = words.get(position);
 
-                //Liberando o recuros do Media Player, caso o usuário clique varias vezes
-                //ele ainda pode estar tocando, com isso não irá ocorrer nenhum bug
-                releseaMediaPlayer();
+                boolean focus = requestAudioFocus(NumbersActivity.this);
 
-                //criando e setando ao MediaPlayer o audio e o recurso associado a palavra atua
-                mMediaPlayer = MediaPlayer.create(NumbersActivity.this, item.getAudioResourceId());
-                mMediaPlayer.start();
+                //Se focus for concedido executar audio
+                if(focus){
+                    play(NumbersActivity.this, item.getAudioResourceId());
+                }
 
-                //setando um listener ao media player, com isso o audio e parado
-                //e os recursos que estão sendo utilizados são limpos
-                mMediaPlayer.setOnCompletionListener(completionListener);
             }
         });
     }
@@ -87,6 +85,21 @@ public class NumbersActivity extends AppCompatActivity {
             //setando o Media Player para nulo
             mMediaPlayer = null;
         }
+    }
+
+    private void play(Context context, int audioResourceID){
+
+        //Liberando o recuros do Media Player, caso o usuário clique varias vezes
+        //ele ainda pode estar tocando, com isso não irá ocorrer nenhum bug
+        releseaMediaPlayer();
+
+        //criando e setando ao MediaPlayer o audio e o recurso associado a palavra atua
+        mMediaPlayer = MediaPlayer.create(context, audioResourceID);
+        mMediaPlayer.start();
+
+        //setando um listener ao media player, com isso o audio e parado
+        //e os recursos que estão sendo utilizados são limpos
+        mMediaPlayer.setOnCompletionListener(completionListener);
     }
 
     private boolean requestAudioFocus(Context context){
