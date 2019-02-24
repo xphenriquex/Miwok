@@ -39,20 +39,19 @@ public class NumbersActivity extends AppCompatActivity {
 
                 case AudioManager.AUDIOFOCUS_LOSS:
                     Log.e("AudioFocus", "AUDIOFOCUS_LOSS");
-                    mAudioManager.abandonAudioFocus(this);
                     releseaMediaPlayer();
                     break;
 
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                     Log.e("AudioFocus", "AUDIOFOCUS_LOSS_TRANSIENT");
-                    if (mMediaPlayer.isPlaying()){
-                        releseaMediaPlayer();
-                    }
+                    mMediaPlayer.pause();
+                    mMediaPlayer.seekTo(0);
                     break;
 
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                     Log.e("AudioFocus", "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
-                    mMediaPlayer.setVolume(0.2f, 0.2f);
+                    mMediaPlayer.pause();
+                    mMediaPlayer.seekTo(0);
                     break;
 
                 default:
@@ -124,6 +123,9 @@ public class NumbersActivity extends AppCompatActivity {
 
             //setando o Media Player para nulo
             mMediaPlayer = null;
+
+            //abandonado o audio focus
+            mAudioManager.abandonAudioFocus(audioFocusChangeListener);
         }
     }
 
