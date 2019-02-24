@@ -2,6 +2,8 @@ package com.exemplo.android.miwok;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +14,8 @@ import java.util.ArrayList;
 
 public class PhrasesActivity extends AppCompatActivity {
     private MediaPlayer mMediaPlayer;
+    private AudioManager mAudioManager;
+    private int audioResourceIdGlobal = 0;
 
     //Criando uma só instancia do Media Player
     private MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
@@ -20,6 +24,35 @@ public class PhrasesActivity extends AppCompatActivity {
             releseaMediaPlayer();
         }
     };
+
+    private AudioManager.OnAudioFocusChangeListener audioFocusChangeListener =
+            new AudioManager.OnAudioFocusChangeListener() {
+                @Override
+                public void onAudioFocusChange(int focusChange) {
+                    switch (focusChange){
+                        case AudioManager.AUDIOFOCUS_GAIN:
+                            play(PhrasesActivity.this);
+                            break;
+
+                        case AudioManager.AUDIOFOCUS_LOSS:
+                            releseaMediaPlayer();
+                            break;
+
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                            mMediaPlayer.pause();
+                            mMediaPlayer.seekTo(0);
+                            break;
+
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                            mMediaPlayer.pause();
+                            mMediaPlayer.seekTo(0);
+                            break;
+
+                        default:
+                            //
+                    }
+                }
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,17 +82,18 @@ public class PhrasesActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Word item = words.get(position);
 
-                //Liberando o recuros do Media Player, caso o usuário clique varias vezes
-                //ele ainda pode estar tocando, com isso não irá ocorrer nenhum bug
-                releseaMediaPlayer();
+                //Criado um AudioResourceID global para
+                //poder utilizar no audioFocusListener
+                audioResourceIdGlobal = item.getAudioResourceId();
 
-                //criando e setando ao MediaPlayer o audio e o recurso associado a palavra atua
-                mMediaPlayer = MediaPlayer.create(PhrasesActivity.this, item.getAudioResourceId());
-                mMediaPlayer.start();
+                // Retorna status da permissão do focus
+                //Sendo eles, Concedido e não concedido
+                boolean focus = requestAudioFocus(PhrasesActivity.this);
 
-                //setando um listener ao media player, com isso o audio e parado
-                //e os recursos que estão sendo utilizados são limpos
-                mMediaPlayer.setOnCompletionListener(completionListener);
+                //Se focus for concedido executar o audio
+                if(focus){
+                    play(PhrasesActivity.this);
+                }
             }
         });
     }
@@ -80,6 +114,45 @@ public class PhrasesActivity extends AppCompatActivity {
 
             //setando o Media Player para nulo
             mMediaPlayer = null;
+
+            //abandonado o audio focus
+            mAudioManager.abandonAudioFocus(audioFocusChangeListener);
         }
+    }
+
+    private void play(Context context){
+
+        //Liberando o recuros do Media Player, caso o usuário clique varias vezes
+        //ele ainda pode estar tocando, com isso não irá ocorrer nenhum bug
+        releseaMediaPlayer();
+
+        //criando e setando ao MediaPlayer o audio e o recurso associado a palavra atua
+        mMediaPlayer = MediaPlayer.create(context, audioResourceIdGlobal);
+        mMediaPlayer.start();
+
+        //setando um listener ao media player, com isso o audio e parado
+        //e os recursos que estão sendo utilizados são limpos
+        mMediaPlayer.setOnCompletionListener(completionListener);
+    }
+
+    private boolean requestAudioFocus(Context context){
+
+        //Criando gerenciado de audio
+        mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+
+        //Requisitando focus para o audio
+        int resut = mAudioManager.requestAudioFocus(
+                audioFocusChangeListener,
+                AudioManager.STREAM_MUSIC,
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
+        );
+
+        //Verificando se permissão do focus foi concedido pelo sistema
+        if(resut == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }
