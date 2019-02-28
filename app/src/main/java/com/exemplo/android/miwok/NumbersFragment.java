@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 /**
@@ -70,7 +71,7 @@ public class NumbersFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.word_list, container, false);
 
@@ -155,11 +156,14 @@ public class NumbersFragment extends Fragment {
     }
 
     private boolean requestAudioFocus(Context context){
+        if(context != null) {
 
-        //Criando gerenciado de audio
-        mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            //Criando gerenciado de audio
+            mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        }
 
         //Requisitando focus para o audio
+        assert mAudioManager != null;
         int resut = mAudioManager.requestAudioFocus(
                 audioFocusChangeListener,
                 AudioManager.STREAM_MUSIC,
@@ -168,6 +172,7 @@ public class NumbersFragment extends Fragment {
 
         //Verificando se permissão do focus foi concedido pelo sistema
         return resut == AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
+
 
     }
 
