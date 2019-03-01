@@ -63,10 +63,6 @@ public class ColorsFragment extends Fragment {
                 }
             };
 
-    public ColorsFragment() {
-        // Required empty public constructor
-    }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,

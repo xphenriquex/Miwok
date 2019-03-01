@@ -65,11 +65,6 @@ public class NumbersFragment extends Fragment {
             };
 
 
-    public NumbersFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -64,11 +64,6 @@ public class PhrasesFragment extends Fragment {
             };
 
 
-    public PhrasesFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

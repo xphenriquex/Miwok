@@ -65,10 +65,6 @@ public class FamilyFragment extends Fragment {
                 }
             };
 
-    public FamilyFragment() {
-        // Required empty public constructor
-    }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
